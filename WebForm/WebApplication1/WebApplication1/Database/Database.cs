@@ -7,7 +7,7 @@ using System.Data;
 using System.Data.SqlClient;
 using WebApplication1.Models;
 using WebApplication1.Utilities;
-
+using System.Web.UI;
 
 namespace WebApplication1.Database
 {
@@ -47,6 +47,8 @@ namespace WebApplication1.Database
         {
             bool status = false;
             int rowsAffect = default;
+            List<OleDbCommand> commands = new List<OleDbCommand>();
+
             string query = "INSERT into Customers(@Name,@Address,@City,@State,@Zip) VALUES(?,?,?,?,?)";
 
             OleDbCommand command = new OleDbCommand(query, con);
@@ -55,8 +57,6 @@ namespace WebApplication1.Database
             command.Parameters.AddWithValue("@City", newCustomer.City);
             command.Parameters.AddWithValue("@State", newCustomer.State);
             command.Parameters.AddWithValue("@Zip", newCustomer.Zip);
-            
-
             try
             {
                 con.Open();
@@ -84,17 +84,138 @@ namespace WebApplication1.Database
         public List<Customers> GetAllCustomers()
         {
             List<Customers> customers = new List<Customers>();
+          
 
+            string query = "SELECT * FROM Customers";
+
+            OleDbCommand command = new OleDbCommand(query, con);
+             try
+            {
+                con.Open();
+                OleDbDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+
+                        Customers customer= new Customers();
+
+                        customer.CustomerID = reader.GetInt32(0);
+                        customer.Name = reader.GetString(1);
+                        customer.Address = reader.GetString(2);
+                        customer.City = reader.GetString(3);
+                        customer.State = reader.GetString(4);
+                        customer.Zip = reader.GetInt32(5);
+
+                        customers.Add(customer);
+                    }
+                    reader.Close();
+                }
+                else return customers = null;
+            }
+            catch (OleDbException e)
+            {
+                er.ErrorheadOleDbException(e);
+            }
+            finally
+            {
+                con.Close();
+            }
             return customers;
+        }
+
+        public Customers GetCustomer(Customers customer)
+        {
+            Customers returnCustomer = new Customers();
+            string query = "Select* FROM Customers WHERE CustomerID==@Id";
+
+            OleDbCommand command = new OleDbCommand(query, con);
+            command.Parameters.AddWithValue("@Id", customer.CustomerID);
+
+
+            try
+            {
+                con.Open();
+            OleDbDataReader reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+
+                    while (reader.Read())
+                    {
+
+                        returnCustomer.CustomerID = reader.GetInt32(0);
+                        returnCustomer.Name = reader.GetString(1);
+                        returnCustomer.Address = reader.GetString(2);
+                        returnCustomer.City = reader.GetString(3);
+                        returnCustomer.State = reader.GetString(4);
+                        returnCustomer.Zip = reader.GetInt32(5);
+                    }
+                    reader.Close();
+
+                }
+                else return returnCustomer = null;
+            }
+            catch (OleDbException e)
+            {
+                er.ErrorheadOleDbException(e);
+            }
+            finally
+            {
+                con.Close();
+            }
+
+            return returnCustomer;
         }
         #endregion
 
         #region Update
+        public bool Update(Customers customers)
+        {
+            bool status = false;
+            try
+            {
 
+            }
+            catch (OleDbException e)
+            {
+                er.ErrorheadOleDbException(e);
+            }
+            finally
+            {
+                con.Close();
+            }
+            return status;
+        }
         #endregion
 
         #region Delete
+        public bool DeleteEntry(Customers customer)
+        {
+            bool status = false;
+            string query = "Delete FROM Customers WHERE CustomerID==@Id";
 
+            if(customer==null)
+            {
+                return status;
+            }
+            try
+            {
+
+            }
+            catch (OleDbException e)
+            {
+                er.ErrorheadOleDbException(e);
+            }
+            finally
+            {
+                con.Close();
+            }
+
+
+
+            return status;
+        }
         #endregion
         #endregion
 
