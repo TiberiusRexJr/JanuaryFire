@@ -46,10 +46,16 @@ namespace WebApplication1.Database
         public bool CreateEntry(Customers newCustomer)
         {
             bool status = false;
-            int rowsAffect = default;
-            List<OleDbCommand> commands = new List<OleDbCommand>();
 
+            if(newCustomer==null)
+            {
+                return status;
+            }
+            
+            int rowsAffect = default;
             string query = "INSERT into Customers(@Name,@Address,@City,@State,@Zip) VALUES(?,?,?,?,?)";
+
+            
 
             OleDbCommand command = new OleDbCommand(query, con);
             command.Parameters.AddWithValue("@Name", newCustomer.Name);
@@ -173,9 +179,26 @@ namespace WebApplication1.Database
         public bool Update(Customers customers)
         {
             bool status = false;
+            int rowCount = default;
+            string query = "UPDATE Customers SET CustomerID==@CustomerID,Name=@Name,Address=@Address,City=@City,State=@State,Zip=@Zip WHERE CustomerID==@CustomerID";
+
+            OleDbCommand command = new OleDbCommand(query, con);
+
+
+            if(customers==null)
+            {
+                return status;
+            }
+
+
             try
             {
-
+                con.Open();
+                rowCount=command.ExecuteNonQuery();
+                if(rowCount>0)
+                {
+                    status = true;
+                }
             }
             catch (OleDbException e)
             {
@@ -191,17 +214,27 @@ namespace WebApplication1.Database
 
         #region Delete
         public bool DeleteEntry(Customers customer)
-        {
+        { 
             bool status = false;
+            
             string query = "Delete FROM Customers WHERE CustomerID==@Id";
 
             if(customer==null)
             {
                 return status;
             }
+
+        OleDbCommand command = new OleDbCommand(query,con);
+            command.Parameters.AddWithValue("@Id", customer.CustomerID);
             try
             {
+                con.Open();
+               int _= command.ExecuteNonQuery();
 
+                if (_ > 0)
+                {
+                    status = true;
+                }
             }
             catch (OleDbException e)
             {
@@ -213,7 +246,6 @@ namespace WebApplication1.Database
             }
 
 
-
             return status;
         }
         #endregion
@@ -223,7 +255,24 @@ namespace WebApplication1.Database
         List<string> GetColumnHeaders()
         {
             List<string> columnHeaders = new List<string>();
+            string query = "SELECT * FROM Customers";
+            OleDbCommand command = new OleDbCommand(query, con);
 
+            try
+            {
+                var reader = command.ExecuteReader(CommandBehavior.SchemaOnly);
+                var table = reader.GetSchemaTable();
+                var colName = table.Columns["ColumnName"];
+                foreach(DataRow row in table.Rows)
+                {
+                    columnHeaders.Add(row[colName].ToString());
+                }
+            }
+            catch(OleDbException e)
+            {
+                er.ErrorheadOleDbException(e);
+                   
+            }
 
             return columnHeaders;
         }
