@@ -40,7 +40,61 @@ namespace WebApplication1
             if(updatedCustomer==null)
             {
                 Response.Write("<script>ModalMessage()</script>");
+                Response.Write("<script>Window.location.reload()</script>");
             }
+
+            if(db.Update(updatedCustomer))
+            {
+                Response.Write("<script>ModalMessage()</script>");
+                Response.Write("<script>Window.location.reload()</script>");
+            }
+            else
+            {
+                Response.Write("<script>ModalMessage()</script>");
+
+                Response.Write("<script>Window.location.reload()</script>");
+            }
+        }
+        
+        public void DeleteCustomer(Customers customer)
+        {
+            if(customer==null)
+            {
+                Response.Write("<script>ModalMessage()</script>");
+                Response.Write("<script>Window.location.reload()</script>");
+            }
+
+            if(db.DeleteEntry(customer))
+            {
+                Response.Write("<script>ModalMessage()</script>");
+                Response.Write("<script>Window.location.reload()</script>");
+            }
+            else
+            {
+                Response.Write("<script>ModalMessage()</script>");
+                Response.Write("<script>Window.location.reload()</script>");
+            }
+        }
+
+        public void AddCustomer(Customers customer)
+        {
+            if (customer == null)
+            {
+                Response.Write("<script>ModalMessage()</script>");
+                Response.Write("<script>Window.location.reload()</script>");
+            }
+
+            if(db.CreateEntry(customer))
+            {
+                Response.Write("<script>ModalMessage()</script>");
+                Response.Write("<script>Window.location.reload()</script>");
+            }
+            else
+            {
+                Response.Write("<script>ModalMessage()</script>");
+                Response.Write("<script>Window.location.reload()</script>");
+            }
+
         }
 
 
