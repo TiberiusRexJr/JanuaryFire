@@ -12,6 +12,15 @@ namespace WebApplication1
         // For more information on Bundling, visit https://go.microsoft.com/fwlink/?LinkID=303951
         public static void RegisterBundles(BundleCollection bundles)
         {
+            bundles.Add(new ScriptBundle("~/bundles/BootstrapJs").Include(
+                            "~/Scripts/BootstrapJs/bootstrap.min.js",
+                            "~/Scripts/BootstrapJs/popper.min.js",
+                            "~/Scripts/jquery-3.5.1.js"
+                            ));
+            bundles.Add(new StyleBundle("~/bundles/BootstrapCss").Include(
+                "~/Content/BootstrapCss/bootstrap.min.css" 
+                ));
+
             bundles.Add(new ScriptBundle("~/bundles/WebFormsJs").Include(
                             "~/Scripts/WebForms/WebForms.js",
                             "~/Scripts/WebForms/WebUIValidation.js",
