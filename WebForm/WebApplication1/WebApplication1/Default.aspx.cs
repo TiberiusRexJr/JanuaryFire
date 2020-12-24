@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Web.ModelBinding;
 using WebApplication1.Database;
 using WebApplication1.Models;
+using System.Data.OleDb;
 
 namespace WebApplication1
 {
@@ -97,6 +98,13 @@ namespace WebApplication1
 
         }
 
+        public List<Customers> GetAllCustomer( )
+        {
+            List<Customers> customers = default;
 
+            customers = db.GetAllCustomers();
+
+            return customers;
+        }
     }
 }

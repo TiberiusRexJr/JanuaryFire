@@ -4,12 +4,9 @@
 
     <div class="container">
            <h1> Customers</h1> 
-        <% using( Html.BeginForm()){ %>
-        <%= Html.TextBox("test.value", Model.test.value) %>
-        <input type="submit" value="sdf" />
-    <%} %>
+        
         <div>  
-            <asp:TextBox ID="txtSearch" AutoPostBack="true" runat="server" ToolTip="Search by part of EmployeeName"></asp:TextBox>  
+            <asp:TextBox ID="txtSearch" AutoPostBack="true" runat="server" ToolTip="Search by Complete Customer Name"></asp:TextBox>  
             <asp:Button ID="btnSearch" Text="Search" runat="server" CausesValidation="false" OnClick="btnSearch_Click" />  
         </div>  
         <div>  

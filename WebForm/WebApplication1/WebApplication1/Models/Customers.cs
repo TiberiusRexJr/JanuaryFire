@@ -7,7 +7,7 @@ using System.Web;
 
 namespace WebApplication1.Models
 {
-    public class Customers: IQueryable,IEnumerable
+    public class Customers
     {
         #region Properties
         public int CustomerID { get; set; }
@@ -17,20 +17,11 @@ namespace WebApplication1.Models
         public string State { get; set; }
         public int Zip { get; set; }
 
+        public List<Customers> customers;
+
 
         #endregion
 
-        #region IQueryableImplementation
-        public Expression Expression => throw new NotImplementedException();
-
-        public Type ElementType => throw new NotImplementedException();
-
-        public IQueryProvider Provider => throw new NotImplementedException();
-
-        public IEnumerator GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
+        
     }
 }
