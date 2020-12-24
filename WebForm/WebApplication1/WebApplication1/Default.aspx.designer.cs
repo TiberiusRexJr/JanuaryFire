@@ -33,13 +33,13 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.Button btnSearch;
 
         /// <summary>
-        /// EmployeeList control.
+        /// CustomerListView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListView EmployeeList;
+        protected global::System.Web.UI.WebControls.ListView CustomerListView;
 
         /// <summary>
         /// DataPager1 control.
@@ -60,33 +60,6 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.Label LabelStatus;
 
         /// <summary>
-        /// LabelAddId control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelAddId;
-
-        /// <summary>
-        /// AddId control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox AddId;
-
-        /// <summary>
-        /// RequiredFieldValidator6 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator6;
-
-        /// <summary>
         /// LabelAddFName control.
         /// </summary>
         /// <remarks>
@@ -96,138 +69,138 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.Label LabelAddFName;
 
         /// <summary>
-        /// AddFirstName control.
+        /// txtAddName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox AddFirstName;
+        protected global::System.Web.UI.WebControls.TextBox txtAddName;
 
         /// <summary>
-        /// RequiredFieldValidator1 control.
+        /// RequiredFieldValidatortxtAddName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidatortxtAddName;
 
         /// <summary>
-        /// LabelAddLName control.
+        /// LabelAddAddress control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelAddLName;
+        protected global::System.Web.UI.WebControls.Label LabelAddAddress;
 
         /// <summary>
-        /// AddLastName control.
+        /// txtAddAddress control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox AddLastName;
+        protected global::System.Web.UI.WebControls.TextBox txtAddAddress;
 
         /// <summary>
-        /// RequiredFieldValidator5 control.
+        /// RequiredFieldValidatortxtAddAddress control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator5;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidatortxtAddAddress;
 
         /// <summary>
-        /// LabelAddSalary control.
+        /// LabelAddCity control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelAddSalary;
+        protected global::System.Web.UI.WebControls.Label LabelAddCity;
 
         /// <summary>
-        /// AddSalary control.
+        /// txtAddCity control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox AddSalary;
+        protected global::System.Web.UI.WebControls.TextBox txtAddCity;
 
         /// <summary>
-        /// RequiredFieldValidator2 control.
+        /// RequiredFieldValidatortxtAddCity control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator2;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidatortxtAddCity;
 
         /// <summary>
-        /// LabelAddContactNo control.
+        /// LabelAddState control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelAddContactNo;
+        protected global::System.Web.UI.WebControls.Label LabelAddState;
 
         /// <summary>
-        /// AddContactNo control.
+        /// DropDownListAddState control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox AddContactNo;
+        protected global::System.Web.UI.WebControls.DropDownList DropDownListAddState;
 
         /// <summary>
-        /// RequiredFieldValidator3 control.
+        /// RequiredFieldValidatorAddState control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator3;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidatorAddState;
 
         /// <summary>
-        /// LabelAddDOB control.
+        /// LabelAddZip control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelAddDOB;
+        protected global::System.Web.UI.WebControls.Label LabelAddZip;
 
         /// <summary>
-        /// AddDOB control.
+        /// inputAddZip control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox AddDOB;
+        protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl inputAddZip;
 
         /// <summary>
-        /// RequiredFieldValidator4 control.
+        /// RequiredFieldValidatorinputAddZip control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator4;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidatorinputAddZip;
 
         /// <summary>
-        /// AddEmployeeButton control.
+        /// ButtonAddCustomer control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button AddEmployeeButton;
+        protected global::System.Web.UI.WebControls.Button ButtonAddCustomer;
     }
 }
