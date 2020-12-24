@@ -39,3 +39,7 @@
     $('#ModalAdminMessenger').modal('hide');
 
 }
+
+function ReloadPage() {
+    location.reload();
+}

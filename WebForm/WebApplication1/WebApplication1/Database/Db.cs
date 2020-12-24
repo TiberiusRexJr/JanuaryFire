@@ -29,7 +29,7 @@ namespace WebApplication1.Database
         {
             OleDbConnectionStringBuilder builder = new OleDbConnectionStringBuilder();
 
-            builder.Provider = "Microsoft.Jet.OLEDB.4.0;";
+            builder.Provider = "Microsoft.ACE.OLEDB.12.0";
             builder.DataSource = dbRoot + "CustomersDb.mdb";
             builder.PersistSecurityInfo = true;
 
@@ -53,7 +53,7 @@ namespace WebApplication1.Database
             }
             
             int rowsAffect = default;
-            string query = "INSERT into Customers(@Name,@Address,@City,@State,@Zip) VALUES(?,?,?,?,?)";
+            string query = "INSERT into Customers(Name,Address,City,State,Zip) VALUES(?,?,?,?,?)";
 
             
 
@@ -111,7 +111,7 @@ namespace WebApplication1.Database
                         customer.Address = reader.GetString(2);
                         customer.City = reader.GetString(3);
                         customer.State = reader.GetString(4);
-                        customer.Zip = reader.GetInt32(5);
+                        customer.Zip = reader.GetString(5);
 
                         customers.Add(customer);
                     }
@@ -155,7 +155,7 @@ namespace WebApplication1.Database
                         returnCustomer.Address = reader.GetString(2);
                         returnCustomer.City = reader.GetString(3);
                         returnCustomer.State = reader.GetString(4);
-                        returnCustomer.Zip = reader.GetInt32(5);
+                        returnCustomer.Zip = reader.GetString(5);
                     }
                     reader.Close();
 
@@ -284,6 +284,7 @@ namespace WebApplication1.Database
             List<Customers> customers = new List<Customers>();
             string query = "SELECT * FROM customers WHERE Name LIKE '@searchText%'";
             OleDbCommand command = new OleDbCommand(query, con);
+            command.Parameters.AddWithValue("@searchText", searchText);
             if(!string.IsNullOrEmpty(searchText))
             {
                 try
@@ -298,7 +299,7 @@ namespace WebApplication1.Database
                         customer.Address = reader.GetString(2);
                         customer.City = reader.GetString(3);
                         customer.State = reader.GetString(4);
-                        customer.Zip = reader.GetInt32(5);
+                        customer.Zip = reader.GetString(5);
 
                         customers.Add(customer);
 
@@ -316,6 +317,7 @@ namespace WebApplication1.Database
                     con.Close();
                 }
             }
+            
 
             return customers;
         }
