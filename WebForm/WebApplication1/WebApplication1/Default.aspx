@@ -1,112 +1,238 @@
 ﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="WebApplication1._Default" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-
+    <style type="text/css">
+        body   
+        {
+          font-size: 10pt;
+            font-family: Trebuchet MS, Arial, Tahoma;
+            text-align:center;
+        }
+        .item { background-color: #E0FFFF }
+        .alternatingItem { background-color: #B0E0E6 }
+    </style>
     <div class="container">
            <h1> Customers</h1> 
-<<<<<<< HEAD
-        
-=======
-   
->>>>>>> 083c975abbb507fcbea80ba59698bc470b759197
+
         <div>  
             <asp:TextBox ID="txtSearch" AutoPostBack="true" runat="server" ToolTip="Search by Complete Customer Name"></asp:TextBox>  
-            <asp:Button ID="btnSearch" Text="Search" runat="server" CausesValidation="false" OnClick="btnSearch_Click" />  
+            <asp:Button ID="btnSearch" Text="Search" runat="server" CausesValidation="false"  />  
         </div>  
         <div>  
-            <asp:ListView ID="CustomerListView" ItemType="WebApplication1.Models.Customers" SelectMethod="GetSearchedItems" DataKeyName="CustomerID" UpdateMethod="UpdateCustomer" DeleteMethod="DeleteCustomer" OnSelectedIndexChanged="SelectedIndexChange" runat="server">  
-                <EmptyDataTemplate>  
-                    <table>  
-                        <tr>  
-                            <td>Nothing to Show</td>  
-                        </tr>  
-                    </table>  
-                </EmptyDataTemplate>  
-                <EmptyItemTemplate>  
-                    <td />  
-                </EmptyItemTemplate>  
-                <LayoutTemplate>  
-                    <div class="table-responsive">  
-                        <table id="CustomerTable" class="table">  
-                            <caption style="color:deeppink"><b>Customers</b></caption>  
-                            <tr style="background-color:crimson">  
-                                <th>CustomerId</th>  
-                                <th>Name</th>  
-                                <th>Address</th>  
-                                <th>City</th>  
-                                <th>State</th>  
-                                <th>Zip</th>  
-                                <th style="width:140px;">Action</th>  
-                            </tr>  
-                            <tr runat="server" id="itemPlaceholder"></tr>  
-                        </table>  
-                    </div>  
-                </LayoutTemplate>  
-                <ItemTemplate>  
-                    <tr>  
-                        <td>  
-                            <%# Item.CustomerID %>  
-                        </td>  
-                        <td>  
-                            <%# Item.Name%>  
-                        </td>  
-                        <td>  
-                            <%# Item.Address %>  
-                        </td>  
-                        <td>  
-                            <%# Item.City %>  
-                        </td>  
-                        <td>  
-                            <%# Item.State %>  
-                        </td>  
-                        <td>  
-                            <%# Item.Zip %>  
-                        </td>  
-                        <td>  
-                            <asp:Button BackColor="#ff3399" CommandName="Edit" Text="Edit" tooltip="Edit a Customer" CausesValidation="false" runat="server" />  
-                            <asp:Button BackColor="#ff3399" CommandName="Delete" tooltip="Delete a Customer" CausesValidation="false" onclientclick="javascript:return confirm('Are you sure to delete record?')" Text="Delete" runat="server" />  
-                        </td>  
-                    </tr>  
-                </ItemTemplate>  
-                <EditItemTemplate>  
-                    <tr>  
-                        <input type="hidden" name="CustomerI" value="<%# Item.CustomerID %>" />  
-                        <td>EmpId:  
-                            <asp:TextBox ID="txtCustomerID" runat="server" TextMode="SingleLine" ReadOnly="true" Text='<%# BindItem.CustomerID%>' />  
-                        </td>  
-                        <td>Name:  
-                            <asp:TextBox ID="txtName" runat="server" TextMode="SingleLine" Text='<%# BindItem.Name %>' />  
-                   
-                        <td>Address:  
-                            <asp:TextBox ID="txtAddress" runat="server" TextMode="SingleLine" Text='<%# BindItem.Address %>' />  
-                        </td>  
-                        <td>City:  
-                            <asp:TextBox ID="txtCity" runat="server" TextMode="SingleLine" Text='<%# BindItem.City %>' />  
-                        </td>  
-                        <td>State:  
-                            <asp:TextBox ID="txtState" runat="server" TextMode="SingleLine" Text='<%# BindItem.State %>' />  
-                        </td>  
-                          </td>  
-                        <td>Zip:  
-                            <input type="text" class="form-control" name="inputZip" value="<%# Item.Zip %>" />  
+           
+
+            <asp:ListView ID="CustomersListView" DataSourceID="ObjectDataSourceCustomers" OnItemCanceling="CustomersListView_ItemCanceling"  DataKeyNames="CustomerID" runat="server">
+                <EmptyDataTemplate>
+                     <table class="emptyTable">
+                <tr>
+                  <td>
+                    <asp:Image ID="NoDataImage"
+                      ImageUrl="~/App_Data/Images/NoData.png"
+                      runat="server"/>
+                  </td>
+                  <td>
+                    No records available.
+                  </td>
+                </tr>
+              </table>
+                </EmptyDataTemplate>
+                <LayoutTemplate>
+                    <table cellpadding="2" width="640px" border="1" runat="server" id="tblProducts">
+                        <tr runat="server">
+                          <th runat="server">Action</th>
+                          <th runat="server">Customer ID</th>
+                          <th runat="server">Name</th>
+                          <th runat="server">Address</th>
+                          <th runat="server">City</th>
+                          <th runat="server">State</th>
+                          <th runat="server">Zip</th>
+                        </tr>
+                        <tr runat="server" id="itemPlaceholder" />
+                      </table>
+                  <asp:DataPager runat="server" ID="DataPagerCustomers" PageSize="10">
+                    <Fields>
+                      <asp:NextPreviousPagerField ShowFirstPageButton="true" ShowLastPageButton="true"
+                        FirstPageText="|&lt;&lt; " LastPageText=" &gt;&gt;|"
+                        NextPageText=" &gt; " PreviousPageText=" &lt; " />
+                    </Fields>
+                  </asp:DataPager>
+                </LayoutTemplate>
+                    <ItemTemplate>
+                      <tr runat="server">
+                        <td>
+                         <asp:Button BackColor="#ff3399" CommandName="Edit" Text="Edit" tooltip="Edit a record" CausesValidation="false" runat="server" />  
+
+                        <asp:Button BackColor="#ff3399" CommandName="Delete" tooltip="Delete a record" CausesValidation="false" onclientclick="javascript:return confirm('Are you sure to delete record?')" Text="Delete" runat="server" />
+                             </td>
+                        <td>
+                          <asp:Label ID="LabelCustomerID" runat="Server" Text='<%#Eval("CustomerID") %>' />
                         </td>
-                        <td>  
-                            <asp:Button class="btn btn-primary" CommandName="Update" Text="Update" CausesValidation="false" runat="server" />  
-                            <asp:Button class="btn btn-danger" CommandName="Cancel" Text="Cancel" CausesValidation="false" runat="server" />  
-                        </td>  
-                    </tr>  
-                </EditItemTemplate>  
-            </asp:ListView>  
-            <hr style="color:darkblue" />  
-            <div style="clear: both;">  
-                <asp:DataPager ID="DataPager1" PagedControlID="CustomerListView" PageSize="10" runat="server">  
-                    <Fields>  
-                        <asp:NextPreviousPagerField ButtonType="Button" ShowFirstPageButton="true" ShowPreviousPageButton="true" ShowNextPageButton="false" ShowLastPageButton="false" />  
-                        <asp:NumericPagerField ButtonType="Link" />  
-                        <asp:NextPreviousPagerField ButtonType="Button" ShowLastPageButton="true" ShowNextPageButton="true" ShowFirstPageButton="false" ShowPreviousPageButton="false" />  
-                    </Fields>  
-                </asp:DataPager>  
-            </div>  
+                        <td>
+                          <asp:Label ID="LabelName" runat="Server" Text='<%#Eval("Name") %>' />
+                        </td>
+                           <td>
+                          <asp:Label ID="LabelAddress" runat="Server" Text='<%#Eval("Address") %>' />
+                        </td>
+                           <td>
+                          <asp:Label ID="LabelCity" runat="Server" Text='<%#Eval("City") %>' />
+                        </td>
+                           <td>
+                          <asp:Label ID="LabelState" runat="Server" Text='<%#Eval("State") %>' />
+                        </td>
+                           <td>
+                          <asp:Label ID="LabelZip" runat="Server" Text='<%#Eval("Zip") %>' />
+                        </td>
+                      </tr>
+                    </ItemTemplate>
+               <EditItemTemplate>
+              <tr style="background-color: #ADD8E6">
+                <td>
+
+                  <asp:LinkButton ID="UpdateButton" runat="server" CommandName="Update" Text="Update" />&nbsp;
+
+                  <asp:LinkButton ID="CancelButton" runat="server" CommandName="Cancel" Text="Cancel" />
+
+                </td>
+                <td>
+                  <asp:TextBox ID="TextBoxCustomerID" ReadOnly="true" runat="server" Text='<%#Bind("CustomerID") %>' 
+                    MaxLength="50" /><br />
+                </td>
+                <td>
+                  <asp:TextBox ID="TextBoxName" runat="server" Text='<%#Bind("Name") %>' 
+                    MaxLength="256" /><br />
+                </td>
+                  <td>
+                  <asp:TextBox ID="TextBoxAddress" runat="server" Text='<%#Bind("Address") %>' 
+                    MaxLength="256" /><br />
+                </td>
+                  <td>
+                  <asp:TextBox ID="TextBoxCity" runat="server" Text='<%#Bind("City") %>' 
+                    MaxLength="256" /><br />
+                </td>
+                  <td>
+                  <asp:DropDownList  ID="DropDownState"  SelectedValue='<%# Bind("State") %>'
+                runat="server">
+                <asp:ListItem Value="CA"></asp:ListItem>
+                <asp:ListItem Value="TX"></asp:ListItem>
+                  </asp:DropDownList>
+                </td>
+                  <td>
+                      <asp:TextBox ID="TextBoxEditZip" runat="server" Text='<%#Bind("Zip") %>' 
+                    MaxLength="256" /><br />
+                  </td>
+              </tr>
+            </EditItemTemplate>
+                  <InsertItemTemplate>
+                    <tr style="background-color:#D3D3D3">
+                      <td>
+
+                        <asp:Label runat="server" ID="LabelInsertName" 
+                          AssociatedControlID="TextBoxInsertName" Text="Name"/>
+
+                        <asp:TextBox ID="TextBoxInsertName" runat="server" 
+                          Text='<%#Bind("Name") %>' />
+
+                          <br />
+
+                        <asp:Label runat="server" ID="LabelInsertAddress" 
+                          AssociatedControlID="TextBoxInsertAddress" Text="Address" />
+
+                        <asp:TextBox ID="TextBoxInsertAddress" runat="server" 
+                          Text='<%#Bind("Address") %>' />
+
+                          <br />
+
+                        <asp:Label runat="server" ID="LabelInsertCity" 
+                          AssociatedControlID="TextBoxInsertCity" Text="City" />
+
+                        <asp:TextBox ID="TextBoxInsertCity" runat="server" 
+                          Text='<%#Bind("City") %>' />
+
+                        <asp:DropDownList id="DropDownInsertState"        SelectedValue='<%# Bind("State") %>' runat="server">
+                          <asp:ListItem Value="TX" Selected="True"> TX </asp:ListItem>
+                          <asp:ListItem Value="CA"> CA </asp:ListItem>
+
+                       </asp:DropDownList>
+
+                          <asp:Label runat="server" ID="LabelInsertZip" 
+                          AssociatedControlID="TextboxInsertZip" Text="City" />
+
+                        <asp:TextBox ID="TextboxInsertZip" runat="server" 
+                          Text='<%#Bind("Zip") %>' />
+                      </td>
+                      <td>
+                        <asp:LinkButton ID="InsertButton" runat="server" 
+                          CommandName="Insert" Text="Insert" />
+                      </td>
+                    </tr>
+                </InsertItemTemplate>
+                   <SelectedItemTemplate>
+                      <tr runat="server" style="background-color:#90EE90">
+           
+                                    <td>
+                                      <asp:LinkButton ID="EditButton" runat="Server" Text="Edit" CommandName="Edit" />
+                                    </td>
+                                      <td>
+                                      <asp:LinkButton ID="DeleteButton" runat="Server" Text="Delete" CommandName="Delete" />
+                                    </td>
+                                    <td>
+                                      <asp:Label ID="LabelCustomerID" runat="Server" Text='<%#Eval("CustomerID") %>' />
+                                    </td>
+                                    <td>
+                                      <asp:Label ID="LabelName" runat="Server" Text='<%#Eval("Name") %>' />
+                                    </td>
+                                       <td>
+                                      <asp:Label ID="LabelAddress" runat="Server" Text='<%#Eval("Address") %>' />
+                                    </td>
+                                       <td>
+                                      <asp:Label ID="LabelCity" runat="Server" Text='<%#Eval("City") %>' />
+                                    </td>
+                                       <td>
+                                      <asp:Label ID="LabelState" runat="Server" Text='<%#Eval("State") %>' />
+                                    </td>
+                                       <td>
+                                      <asp:Label ID="LabelZip" runat="Server" Text='<%#Eval("Zip") %>' />
+                                    </td>
+                                  </tr>
+                   </SelectedItemTemplate>
+                <ItemSeparatorTemplate>
+          <td class="separator" runat="server">&nbsp;</td>
+        </ItemSeparatorTemplate>
+                  <AlternatingItemTemplate>
+                  <tr class="alternatingItem" runat="server">
+                           
+                        <td>
+                              <asp:Button BackColor="#ff3399" CommandName="Edit" Text="Edit" tooltip="Edit a record" CausesValidation="false" runat="server" />  
+
+                        <asp:Button BackColor="#ff3399" CommandName="Delete" tooltip="Delete a record" CausesValidation="false" onclientclick="javascript:return confirm('Are you sure to delete record?')" Text="Delete" runat="server" />
+                        </td>
+                        <td>
+                          <asp:Label ID="LabelCustomerID" runat="Server" Text='<%#Eval("CustomerID") %>' />
+                        </td>
+                        <td>
+                          <asp:Label ID="LabelName" runat="Server" Text='<%#Eval("Name") %>' />
+                        </td>
+                           <td>
+                          <asp:Label ID="LabelAddress" runat="Server" Text='<%#Eval("Address") %>' />
+                        </td>
+                           <td>
+                          <asp:Label ID="LabelCity" runat="Server" Text='<%#Eval("City") %>' />
+                        </td>
+                           <td>
+                          <asp:Label ID="LabelState" runat="Server" Text='<%#Eval("State") %>' />
+                        </td>
+                           <td>
+                          <asp:Label ID="LabelZip" runat="Server" Text='<%#Eval("Zip") %>' />
+                        </td>
+                      </tr>
+                  </tr>
+                    </AlternatingItemTemplate>
+            </asp:ListView>
+            <asp:ObjectDataSource id="ObjectDataSourceCustomers" TypeName="WebApplication1._Default" SelectMethod="GetAllCustomer" UpdateMethod="UpdateCustomer" OnDeleting="ObjectDataSourceCustomers_Deleting" DeleteMethod="DeleteCustomer" runat="server">
+                <deleteparameters>
+                <asp:parameter name="CustomerID" type="Int32" />
+                </deleteparameters>
+            </asp:ObjectDataSource>
         </div>  
         <hr style="width:5px;color:darkblue;" />  
         <asp:Label ID="LabelStatus" BackColor="Blue" Width="540px" Height="5px" runat="server" Text=""></asp:Label>

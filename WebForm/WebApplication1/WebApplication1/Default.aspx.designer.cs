@@ -33,22 +33,22 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.Button btnSearch;
 
         /// <summary>
-        /// CustomerListView control.
+        /// CustomersListView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListView CustomerListView;
+        protected global::System.Web.UI.WebControls.ListView CustomersListView;
 
         /// <summary>
-        /// DataPager1 control.
+        /// ObjectDataSourceCustomers control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DataPager DataPager1;
+        protected global::System.Web.UI.WebControls.ObjectDataSource ObjectDataSourceCustomers;
 
         /// <summary>
         /// LabelStatus control.

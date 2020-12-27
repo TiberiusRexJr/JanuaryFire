@@ -213,19 +213,16 @@ namespace WebApplication1.Database
         #endregion
 
         #region Delete
-        public bool DeleteEntry(Customers customer)
+        public bool DeleteEntry(int? customerID)
         { 
             bool status = false;
             
-            string query = "Delete FROM Customers WHERE CustomerID==@Id";
+            string query = "Delete FROM Customers WHERE CustomerID=@Id";
 
-            if(customer==null)
-            {
-                return status;
-            }
+           
 
         OleDbCommand command = new OleDbCommand(query,con);
-            command.Parameters.AddWithValue("@Id", customer.CustomerID);
+            command.Parameters.AddWithValue("@Id", customerID);
             try
             {
                 con.Open();

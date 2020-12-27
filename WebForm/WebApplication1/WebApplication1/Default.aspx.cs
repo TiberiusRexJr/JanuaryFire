@@ -13,52 +13,23 @@ namespace WebApplication1
 {
     public partial class _Default : Page
     {
-        
+
         private Db db = new Db();
         protected void Page_Load(object sender, EventArgs e)
         {
-         
+
         }
 
-       
-        public IQueryable<Customers> GetSearchedItems([Control("txtSearch")] string search)
-        {
-            EnumerableQuery<Customers> searchResult = default;
-
-            if (!string.IsNullOrEmpty(search))
-            {
-                List<Customers> returnList = db.SearchByName(search);
-
-                if (returnList == null)
-                {
-                    return searchResult = new EnumerableQuery<Customers>(new List<Customers> { });
-                }
-                else
-                    searchResult = new EnumerableQuery<Customers>(returnList);
-                
-            }
-            else
-            {
-                List<Customers> allCustomers = db.GetAllCustomers();
-                if (allCustomers == null)
-                {
-                    return searchResult = new EnumerableQuery<Customers>(new List<Customers> { });
-                }
-                else
-                    searchResult = new EnumerableQuery<Customers>(allCustomers);
-            }
-            return searchResult;
-        }
 
         public void UpdateCustomer(Customers updatedCustomer)
         {
-            if(updatedCustomer==null)
+            if (updatedCustomer == null)
             {
-                Response.Write("<script>ModalMessage("+updatedCustomer+","+false+","+"Update"+","+"null value provided!"+")</script>");
+                Response.Write("<script>ModalMessage(" + updatedCustomer + "," + false + "," + "Update" + "," + "null value provided!" + ")</script>");
                 Response.Write("<script>Window.location.reload()</script>");
             }
 
-            if(db.Update(updatedCustomer))
+            if (db.Update(updatedCustomer))
             {
                 Response.Write("<script>ModalMessage(" + updatedCustomer + "," + true + "," + "Update" + "," + "success" + ")</script>");
                 Response.Write("<script>Window.location.reload()</script>");
@@ -70,32 +41,21 @@ namespace WebApplication1
                 Response.Write("<script>Window.location.reload()</script>");
             }
         }
-        
-        public void DeleteCustomer(Customers customer)
-        {
-            if(customer==null)
-            {
-                Response.Write("<script>ModalMessage()</script>");
-                Response.Write("<script>Window.location.reload()</script>");
-            }
 
-            if(db.DeleteEntry(customer))
+        public void DeleteCustomer(int? CustomerID)
+
+        {
+            if (db.DeleteEntry(CustomerID))
             {
-                Response.Write("<script>ModalMessage()</script>");
-                Response.Write("<script>Window.location.reload()</script>");
-            }
-            else
-            {
-                Response.Write("<script>ModalMessage()</script>");
-                Response.Write("<script>Window.location.reload()</script>");
+
             }
         }
 
-        public void AddCustomer(object sender,EventArgs e)
+        public void AddCustomer(object sender, EventArgs e)
         {
             Customers customer = new Customers();
 
-           
+
 
             customer.Name = txtAddName.Text;
             customer.Address = txtAddAddress.Text;
@@ -105,10 +65,10 @@ namespace WebApplication1
 
             if (customer == null)
             {
-                
+
             }
 
-            if(db.CreateEntry(customer))
+            if (db.CreateEntry(customer))
             {
                 string modalMessenger = "ModalMessage('customer','false','Add','Created!' )";
                 ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "ModalMessenger", modalMessenger, true);
@@ -116,36 +76,36 @@ namespace WebApplication1
             }
             else
             {
-                
+
             }
 
         }
 
-<<<<<<< HEAD
-        public List<Customers> GetAllCustomer( )
-        {
-            List<Customers> customers = default;
 
-            customers = db.GetAllCustomers();
-=======
-        protected void btnSearch_Click(object sender, EventArgs e)
+        public ICollection<Customers> GetAllCustomer()
         {
-            Response.Write("<script>Window.location.reload()</script>");
+            ICollection<Customers> searchResult = default;
+
+            searchResult = db.GetAllCustomers();
+
+            
+            return searchResult;
 
         }
 
-        public void SelectedIndexChange(object sender,EventArgs e)
+        protected void ObjectDataSourceCustomers_Deleting(object sender, ObjectDataSourceMethodEventArgs e)
         {
-            CustomerListView.DataBind();
-            Response.Write("<script>Window.location.reload()</script>");
-
+            System.Console.WriteLine(e.ToString());
         }
 
-
-
->>>>>>> 083c975abbb507fcbea80ba59698bc470b759197
-
-            return customers;
+        protected void CustomersListView_ItemCanceling(object sender, ListViewCancelEventArgs e)
+        {
+            if(!IsPostBack)
+            {
+                CustomersListView.EditIndex = -1;
+                CustomersListView.InsertItemPosition = InsertItemPosition.LastItem;
+            }
         }
     }
+        
 }
