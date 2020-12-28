@@ -26,19 +26,15 @@ namespace WebApplication1
             if (updatedCustomer == null)
             {
                 Response.Write("<script>ModalMessage(" + updatedCustomer + "," + false + "," + "Update" + "," + "null value provided!" + ")</script>");
-                Response.Write("<script>Window.location.reload()</script>");
             }
 
             if (db.Update(updatedCustomer))
             {
-                Response.Write("<script>ModalMessage(" + updatedCustomer + "," + true + "," + "Update" + "," + "success" + ")</script>");
-                Response.Write("<script>Window.location.reload()</script>");
+                
             }
             else
             {
-                Response.Write("<script>ModalMessage(" + updatedCustomer + "," + false + "," + "Update" + "," + "success" + ")</script>");
-
-                Response.Write("<script>Window.location.reload()</script>");
+                
             }
         }
 
@@ -105,6 +101,11 @@ namespace WebApplication1
                 CustomersListView.EditIndex = -1;
                 CustomersListView.InsertItemPosition = InsertItemPosition.LastItem;
             }
+        }
+
+        protected void ObjectDataSourceCustomers_Updating(object sender, ObjectDataSourceMethodEventArgs e)
+        {
+            System.Console.WriteLine(e.ToString());
         }
     }
         

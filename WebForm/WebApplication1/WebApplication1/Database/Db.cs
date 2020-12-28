@@ -180,12 +180,17 @@ namespace WebApplication1.Database
         {
             bool status = false;
             int rowCount = default;
-            string query = "UPDATE Customers SET CustomerID==@CustomerID,Name=@Name,Address=@Address,City=@City,State=@State,Zip=@Zip WHERE CustomerID==@CustomerID";
+            string query = "UPDATE Customers SET Name=@Name,Address=@Address,City=@City,State=@State,Zip=@Zip WHERE CustomerID=@CustomerID";
 
             OleDbCommand command = new OleDbCommand(query, con);
-
-
-            if(customers==null)
+            command.Parameters.AddWithValue("@Name", customers.Name);
+            command.Parameters.AddWithValue("@Address", customers.Address);
+            command.Parameters.AddWithValue("@City", customers.City);
+            command.Parameters.AddWithValue("@State", customers.State);
+            command.Parameters.AddWithValue("@Zip", customers.Zip);
+            command.Parameters.AddWithValue("@CustomerID", customers.CustomerID);
+            System.Console.WriteLine(command.CommandText);
+            if (customers==null)
             {
                 return status;
             }

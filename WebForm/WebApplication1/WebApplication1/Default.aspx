@@ -21,7 +21,7 @@
         <div>  
            
 
-            <asp:ListView ID="CustomersListView" DataSourceID="ObjectDataSourceCustomers" OnItemCanceling="CustomersListView_ItemCanceling"  DataKeyNames="CustomerID" runat="server">
+            <asp:ListView ID="CustomersListView" DataSourceID="ObjectDataSourceCustomers" TypeName="WebApplication1._Default" OnItemCanceling="CustomersListView_ItemCanceling"  DataKeyNames="CustomerID" runat="server">
                 <EmptyDataTemplate>
                      <table class="emptyTable">
                 <tr>
@@ -87,27 +87,32 @@
                <EditItemTemplate>
               <tr style="background-color: #ADD8E6">
                 <td>
-
-                  <asp:LinkButton ID="UpdateButton" runat="server" CommandName="Update" Text="Update" />&nbsp;
-
-                  <asp:LinkButton ID="CancelButton" runat="server" CommandName="Cancel" Text="Cancel" />
-
+                    <asp:Button BackColor="#ff3399" CommandName="Update" Text="Update" tooltip="Submit Update" CausesValidation="false" runat="server" />
+                    
+                    <asp:Button BackColor="#ff3399" CommandName="Cancel" Text="Cancel" tooltip="Cancel Submission" CausesValidation="false" runat="server" /> 
+               
                 </td>
                 <td>
                   <asp:TextBox ID="TextBoxCustomerID" ReadOnly="true" runat="server" Text='<%#Bind("CustomerID") %>' 
                     MaxLength="50" /><br />
+                    
                 </td>
                 <td>
-                  <asp:TextBox ID="TextBoxName" runat="server" Text='<%#Bind("Name") %>' 
+                  <asp:TextBox ID="TextBoxEditName" runat="server" Text='<%#Bind("Name") %>' 
                     MaxLength="256" /><br />
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidatorTextBoxEditName" runat="server" Text="* First name required." ForeColor="Red" ControlToValidate="TextBoxEditName" SetFocusOnError="true" Display="Dynamic"></asp:RequiredFieldValidator>
                 </td>
                   <td>
                   <asp:TextBox ID="TextBoxAddress" runat="server" Text='<%#Bind("Address") %>' 
                     MaxLength="256" /><br />
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidatorTextBoxAddress" runat="server" Text="* Address Required." ForeColor="Red" ControlToValidate="TextBoxAddress" SetFocusOnError="true" Display="Dynamic"></asp:RequiredFieldValidator>
+                    
                 </td>
                   <td>
                   <asp:TextBox ID="TextBoxCity" runat="server" Text='<%#Bind("City") %>' 
                     MaxLength="256" /><br />
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidatorTextBoxCity" runat="server" Text="* City Required" ForeColor="Red" ControlToValidate="TextBoxCity" SetFocusOnError="true" Display="Dynamic"></asp:RequiredFieldValidator>
+
                 </td>
                   <td>
                   <asp:DropDownList  ID="DropDownState"  SelectedValue='<%# Bind("State") %>'
@@ -119,6 +124,8 @@
                   <td>
                       <asp:TextBox ID="TextBoxEditZip" runat="server" Text='<%#Bind("Zip") %>' 
                     MaxLength="256" /><br />
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidatorTextBoxEditZip" runat="server" Text="* City Required" ForeColor="Red" ControlToValidate="TextBoxEditZip" SetFocusOnError="true" Display="Dynamic"></asp:RequiredFieldValidator>
+
                   </td>
               </tr>
             </EditItemTemplate>
@@ -228,7 +235,7 @@
                   </tr>
                     </AlternatingItemTemplate>
             </asp:ListView>
-            <asp:ObjectDataSource id="ObjectDataSourceCustomers" TypeName="WebApplication1._Default" SelectMethod="GetAllCustomer" UpdateMethod="UpdateCustomer" OnDeleting="ObjectDataSourceCustomers_Deleting" DeleteMethod="DeleteCustomer" runat="server">
+            <asp:ObjectDataSource id="ObjectDataSourceCustomers" DataObjectTypeName="WebApplication1.Models.Customers"  TypeName="WebApplication1._Default" SelectMethod="GetAllCustomer" UpdateMethod="UpdateCustomer" OnUpdating="ObjectDataSourceCustomers_Updating" OnDeleting="ObjectDataSourceCustomers_Deleting" DeleteMethod="DeleteCustomer" runat="server">
                 <deleteparameters>
                 <asp:parameter name="CustomerID" type="Int32" />
                 </deleteparameters>
