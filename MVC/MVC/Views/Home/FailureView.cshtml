@@ -1,0 +1,37 @@
+﻿@model MVC.Models.Customers
+
+@{
+    ViewBag.Title = "FailureView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="card text-center">
+    <div class="card-header bg-danger">
+        <h2><i class="fa fa-skull-crossbones fa-3x"></i>Failed!<i class="fa fa-skull-crossbones fa-3x"></i></h2>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">@Html.DisplayTextFor(model => model.Name)</h5>
+        <p class="card-text">@TempData["ErrorMessage"]</p>
+    </div>
+    <div class="card-footer text-muted">
+        
+    </div>
+</div>
+
+<script>
+    window.onload = function () {
+        Redirect();
+    };
+
+    function Redirect() {
+
+    window.setTimeout(function () {
+        window.location.href = '@Url.Action("Index", "Home")';
+    }, 2000);
+
+    }
+</script>
+
+

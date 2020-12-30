@@ -218,7 +218,7 @@ namespace WebApplication1.Database
         #endregion
 
         #region Delete
-        public bool DeleteEntry(int? customerID)
+        public bool DeleteEntry(Customers customers)
         { 
             bool status = false;
             
@@ -227,7 +227,7 @@ namespace WebApplication1.Database
            
 
         OleDbCommand command = new OleDbCommand(query,con);
-            command.Parameters.AddWithValue("@Id", customerID);
+            command.Parameters.AddWithValue("@Id", customers.CustomerID);
             try
             {
                 con.Open();
@@ -284,11 +284,18 @@ namespace WebApplication1.Database
         public List<Customers> SearchByName(string searchText)
         {
             List<Customers> customers = new List<Customers>();
-            string query = "SELECT * FROM customers WHERE Name LIKE '@searchText%'";
-            OleDbCommand command = new OleDbCommand(query, con);
-            command.Parameters.AddWithValue("@searchText", searchText);
-            if(!string.IsNullOrEmpty(searchText))
+
+            if (string.IsNullOrEmpty(searchText))
             {
+                return customers = GetAllCustomers();
+            }
+
+            
+            string query = "SELECT * FROM Customers WHERE Name LIKE '@searchText%'";
+            OleDbCommand command = new OleDbCommand(query, con);
+
+            command.Parameters.AddWithValue("@searchText", searchText);
+
                 try
                 {
                     con.Open();
@@ -318,7 +325,7 @@ namespace WebApplication1.Database
                 {
                     con.Close();
                 }
-            }
+            
             
 
             return customers;

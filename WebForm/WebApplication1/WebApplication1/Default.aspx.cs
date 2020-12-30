@@ -38,37 +38,22 @@ namespace WebApplication1
             }
         }
 
-        public void DeleteCustomer(int? CustomerID)
+        public void DeleteCustomer(Customers customers)
 
         {
-            if (db.DeleteEntry(CustomerID))
+            if (db.DeleteEntry(customers))
             {
 
             }
         }
 
-        public void AddCustomer(object sender, EventArgs e)
+        public void AddCustomer(Customers customers)
         {
-            Customers customer = new Customers();
+            
 
-
-
-            customer.Name = txtAddName.Text;
-            customer.Address = txtAddAddress.Text;
-            customer.City = txtAddCity.Text;
-            customer.State = DropDownListAddState.SelectedValue;
-            customer.Zip = inputAddZip.Value;
-
-            if (customer == null)
+            if (db.CreateEntry(customers))
             {
-
-            }
-
-            if (db.CreateEntry(customer))
-            {
-                string modalMessenger = "ModalMessage('customer','false','Add','Created!' )";
-                ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "ModalMessenger", modalMessenger, true);
-                Page.ClientScript.RegisterStartupScript(this.GetType(), "ReloadPage", "ReloadPage()", true);
+                
             }
             else
             {
@@ -77,13 +62,12 @@ namespace WebApplication1
 
         }
 
-
         public ICollection<Customers> GetAllCustomer()
         {
             ICollection<Customers> searchResult = default;
 
             searchResult = db.GetAllCustomers();
-
+           
             
             return searchResult;
 
@@ -106,6 +90,26 @@ namespace WebApplication1
         protected void ObjectDataSourceCustomers_Updating(object sender, ObjectDataSourceMethodEventArgs e)
         {
             System.Console.WriteLine(e.ToString());
+        }
+
+        protected void ButtonAddNewCustomer_Click(object sender, EventArgs e)
+        {
+            CustomersListView.InsertItemPosition = InsertItemPosition.FirstItem;
+        }
+
+        protected void ButtonCancelInsert_Click(object sender, EventArgs e)
+        {
+            CustomersListView.InsertItemPosition = InsertItemPosition.None;
+        }
+
+        protected void ObjectDataSourceCustomers_Inserted(object sender, ObjectDataSourceStatusEventArgs e)
+        {
+            CustomersListView.InsertItemPosition = InsertItemPosition.None;
+        }
+
+        protected void KeyUp(object sender, EventArgs e)
+        {
+
         }
     }
         

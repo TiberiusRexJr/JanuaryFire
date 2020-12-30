@@ -14,9 +14,11 @@
     <div class="container">
            <h1> Customers</h1> 
 
-        <div>  
-            <asp:TextBox ID="txtSearch" AutoPostBack="true" runat="server" ToolTip="Search by Complete Customer Name"></asp:TextBox>  
-            <asp:Button ID="btnSearch" Text="Search" runat="server" CausesValidation="false"  />  
+        <div>
+           
+            <asp:TextBox ID="txtSearch" AutoPostBack="true" runat="server" onKeyUp="KeyUp" ToolTip="Search by Complete Customer Name"></asp:TextBox>  
+
+            <asp:Button ID="btnSearch" Text="Search" runat="server" CausesValidation="false" CommandName=""  />  
         </div>  
         <div>  
            
@@ -37,6 +39,9 @@
               </table>
                 </EmptyDataTemplate>
                 <LayoutTemplate>
+
+                         <asp:Button ID="ButtonAddNewCustomer" CausesValidation="false"  runat="server" CommandName="Create" CssClass="btn btn-success" OnClick="ButtonAddNewCustomer_Click" Text="New Customer" />
+
                     <table cellpadding="2" width="640px" border="1" runat="server" id="tblProducts">
                         <tr runat="server">
                           <th runat="server">Action</th>
@@ -47,6 +52,7 @@
                           <th runat="server">State</th>
                           <th runat="server">Zip</th>
                         </tr>
+                        
                         <tr runat="server" id="itemPlaceholder" />
                       </table>
                   <asp:DataPager runat="server" ID="DataPagerCustomers" PageSize="10">
@@ -131,46 +137,48 @@
             </EditItemTemplate>
                   <InsertItemTemplate>
                     <tr style="background-color:#D3D3D3">
-                      <td>
+                          <td>
 
-                        <asp:Label runat="server" ID="LabelInsertName" 
-                          AssociatedControlID="TextBoxInsertName" Text="Name"/>
+                        <asp:LinkButton ID="InsertButton" runat="server" 
+                          CommandName="Insert" Text="Insert" CausesValidation="false" CssClass="btn btn-primary" />
 
+                          <asp:Button runat="server" CssClass="btn btn-danger" ID="ButtonCancelInsert" Text="Cancel" CausesValidation="false"  OnClick="ButtonCancelInsert_Click" />
+                      </td>
+                        <td>
+
+                        </td>
+                        <td>                      
                         <asp:TextBox ID="TextBoxInsertName" runat="server" 
                           Text='<%#Bind("Name") %>' />
-
-                          <br />
-
-                        <asp:Label runat="server" ID="LabelInsertAddress" 
-                          AssociatedControlID="TextBoxInsertAddress" Text="Address" />
-
+                          
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidatorTextBoxInsertName" runat="server" Text="* Name Required" ForeColor="Red" ControlToValidate="TextBoxInsertName" SetFocusOnError="true" Display="Dynamic"></asp:RequiredFieldValidator>
+                             </td>
+                        <td>
                         <asp:TextBox ID="TextBoxInsertAddress" runat="server" 
                           Text='<%#Bind("Address") %>' />
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidatorTextBoxInsertAddress" runat="server" Text="* Address Required" ForeColor="Red" ControlToValidate="TextBoxInsertAddress" SetFocusOnError="true" Display="Dynamic"></asp:RequiredFieldValidator>
 
-                          <br />
-
-                        <asp:Label runat="server" ID="LabelInsertCity" 
-                          AssociatedControlID="TextBoxInsertCity" Text="City" />
-
+                            </td>
+                        <td>
                         <asp:TextBox ID="TextBoxInsertCity" runat="server" 
                           Text='<%#Bind("City") %>' />
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidatorTextBoxInsertCity" runat="server" Text="* City Required" ForeColor="Red" ControlToValidate="TextBoxInsertCity" SetFocusOnError="true" Display="Dynamic"></asp:RequiredFieldValidator>
 
-                        <asp:DropDownList id="DropDownInsertState"        SelectedValue='<%# Bind("State") %>' runat="server">
+                            </td>
+                        <td>
+                        <asp:DropDownList id="DropDownInsertState" SelectedValue='<%# Bind("State") %>' runat="server">
                           <asp:ListItem Value="TX" Selected="True"> TX </asp:ListItem>
                           <asp:ListItem Value="CA"> CA </asp:ListItem>
 
                        </asp:DropDownList>
-
-                          <asp:Label runat="server" ID="LabelInsertZip" 
-                          AssociatedControlID="TextboxInsertZip" Text="City" />
-
+                            </td>
+                        <td>
                         <asp:TextBox ID="TextboxInsertZip" runat="server" 
                           Text='<%#Bind("Zip") %>' />
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidatorTextboxInsertZip" runat="server" Text="* Zip Required" ForeColor="Red" ControlToValidate="TextboxInsertZip" SetFocusOnError="true" Display="Dynamic"></asp:RequiredFieldValidator>
+
                       </td>
-                      <td>
-                        <asp:LinkButton ID="InsertButton" runat="server" 
-                          CommandName="Insert" Text="Insert" />
-                      </td>
+                    
                     </tr>
                 </InsertItemTemplate>
                    <SelectedItemTemplate>
@@ -235,9 +243,9 @@
                   </tr>
                     </AlternatingItemTemplate>
             </asp:ListView>
-            <asp:ObjectDataSource id="ObjectDataSourceCustomers" DataObjectTypeName="WebApplication1.Models.Customers"  TypeName="WebApplication1._Default" SelectMethod="GetAllCustomer" UpdateMethod="UpdateCustomer" OnUpdating="ObjectDataSourceCustomers_Updating" OnDeleting="ObjectDataSourceCustomers_Deleting" DeleteMethod="DeleteCustomer" runat="server">
+            <asp:ObjectDataSource id="ObjectDataSourceCustomers" DataObjectTypeName="WebApplication1.Models.Customers"  TypeName="WebApplication1._Default" SelectMethod="GetAllCustomer" UpdateMethod="UpdateCustomer" InsertMethod="AddCustomer" OnUpdating="ObjectDataSourceCustomers_Updating" OnDeleting="ObjectDataSourceCustomers_Deleting" DeleteMethod="DeleteCustomer" OnInserted="ObjectDataSourceCustomers_Inserted" runat="server">
                 <deleteparameters>
-                <asp:parameter name="CustomerID" type="Int32" />
+                <asp:parameter name="CustomerID" type="Int32"  />
                 </deleteparameters>
             </asp:ObjectDataSource>
         </div>  
@@ -306,7 +314,7 @@
             </tr>  
         </table>  
         
-        <asp:Button ID="ButtonAddCustomer" runat="server" Text="Add Customer" OnClick="AddCustomer" CausesValidation="true" />  
+              
           </div>
         </div>
         

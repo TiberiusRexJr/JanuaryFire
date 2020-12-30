@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@using MVC.Models;
+@using PagedList.Mvc;
+@using PagedList;
+
+
+@model PagedList.IPagedList<MVC.Models.Customers>
+
+<div class="container-fluid">
+
+    <table class="table table-striped table-hover" id="tableCustomers">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col" class="text-center"><i class="fa fa-bolt fa-2x"></i>Actions</th>
+                <th scope="col" class="text-center">CustomerID</th>
+                <th scope="col" class="text-center">Name</th>
+                <th scope="col" class="text-center">Address</th>
+                <th scope="col" class="text-center">City</th>
+                <th scope="col" class="text-center">State</th>
+                <th scope="col" class="text-center">Zip</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (Customers c in Model)
+                {
+                    <tr>
+                        <td>
+                            <button class="btn btn-secondary mx-1 my-1" type="button" onclick="location.href = '@Url.Action("EditCustomer","Home",c)'; return false;"><i class="fa fa-edit mx-1 my-1"></i>Edit</button>
+                            <button class="btn btn-danger mx-1 my-1" type="button" onclick="location.href = '@Url.Action("DeleteCustomer","Home",c)'; return false;"><i class="fa fa-user-times mx-1 my-1"></i>Delete</button>
+                        </td>
+                    
+                        <td class="text-center"><p class="text-center">@c.CustomerID</p></td>
+                   
+                        <td class="text-center"><p class="text-center">@c.Name</p></td>
+                    
+                        <td class="text-center"><p class="text-center">@c.Address</p></td>
+                 
+
+                        <td class="text-center"><p class="text-center">@c.City</p></td>
+                   
+                        <td class="text-center"><p class="text-center">@c.State</p></td>
+                    
+                        <td class="text-center"><p class="text-center">@c.Zip</p></td>
+                    </tr>
+                };
+
+            }
+            else
+            {
+                <tr>
+                    <td>
+
+                <img src="~/App_Data/Images/NoData.png" class="img-fluid" alt="Responsive image">
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="pagination">
+        <button class="btn btn-success mx-1 my-1" type="button" onclick="location.href = '@Url.Action("AddCustomerView","Home")'; return false;"><i class="fa fa-user-plus my-1 mx-1"></i>Add</button>
+        Page @(Model.PageCount<Model.PageNumber? 0: Model.PageNumber) of @Model.PageCount @Html.PagedListPager(Model,page=>Url.Action("Index",new { page }))
+
+    </div>
+</div>
