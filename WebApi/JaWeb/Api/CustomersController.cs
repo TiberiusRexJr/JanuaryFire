@@ -50,7 +50,8 @@ namespace JaWeb.Api
         }
 
         [HttpPost]
-        public ResponseMessage<Customers> PostCustomer(Customers customer)
+        [Route("api/Customers/PostCustomer/customer")]
+        public ResponseMessage<Customers> PostCustomer([FromBody] Customers customer)
         {
             ResponseMessage<Customers> responseMessage = new ResponseMessage<Customers>();
 
@@ -80,7 +81,8 @@ namespace JaWeb.Api
         }
 
         [HttpDelete]
-        public ResponseMessage<Customers> DeleteCustomer(Customers customer)
+        [Route("api/Customers/DeleteCustomer/customer")]
+        public ResponseMessage<Customers> DeleteCustomer([FromBody] Customers customer)
         {
             ResponseMessage<Customers> responseMessage = new ResponseMessage<Customers>();
 
@@ -111,7 +113,8 @@ namespace JaWeb.Api
         }
 
         [HttpPut]
-        public ResponseMessage<Customers> UpdateCustomer(Customers customer)
+        [Route("api/Customers/UpdateCustomer/customer")]
+        public ResponseMessage<Customers> UpdateCustomer([FromBody] Customers customer)
         {
             ResponseMessage<Customers> responseMessage = new ResponseMessage<Customers>();
 

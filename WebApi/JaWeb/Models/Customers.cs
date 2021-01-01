@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace JaWeb.Models
 {
-    public class Customers : IEnumerable
+    public class Customers 
     {
         #region Variables
         public List<Customers> customersList;
@@ -50,60 +50,10 @@ namespace JaWeb.Models
 
 
 
-        #region NestedClasses
-        public class CustomersEnumerator : IEnumerator
-        {
-            List<Customers> customersEnumerationList;
-
-            int position = -1;
-
-            public CustomersEnumerator(List<Customers> customers)
-            {
-                customersEnumerationList = customers;
-
-            }
-
-            public object Current
-            {
-                get
-                {
-                    try
-                    {
-                        return customersEnumerationList[position];
-                    }
-                    catch (IndexOutOfRangeException)
-                    {
-                        throw new InvalidOperationException();
-                    }
-                }
-            }
-
-            public bool MoveNext()
-            {
-                position++;
-                return (position < customersEnumerationList.Count);
-            }
-
-            public void Reset()
-            {
-                position = -1;
-            }
-        }
-        #endregion
+        
 
 
-        #region IEnumerator Implementation
-        // Implementation for the GetEnumerator method.
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return (IEnumerator)GetEnumerator();
-        }
-
-        public CustomersEnumerator GetEnumerator()
-        {
-            return new CustomersEnumerator(customersList);
-        }
-        #endregion
+        
 
     }
 }
