@@ -1,7 +1,8 @@
 ﻿class Customer
 {
-    constructor(Name, Address, City, State, Zip)
+    constructor(Id,Name, Address, City, State, Zip)
     {
+        this.CustomerID = Id;
         this.Name = Name;
         this.Address = Address;
         this.City = City;
@@ -13,6 +14,9 @@
 
 const RequestType = { "POST": "Post", "GET": "Get", "PUT": "Put", "DELETE": "Delete" }
 Object.freeze(RequestType);
+
+const CRUDType = { "EDIT": "Edit", "UPDATE":"Update", "DELETE":"Delete", "CREATE":"Create" }
+Object.freeze(CRUDType);
 
 $(document).ready(function()
 {
@@ -31,14 +35,90 @@ function AddCustomerSubmit()
 {
     let customer = new Customer($("#inputName").val(), $("#inputAddress").val(), $("#inputCity").val(), $("#selectState").val(), $("#inputZip").val());
 
-    console.log(customer);
-    console.log(RequesType.POST);
+    
     AjaxApi(customer, RequestType.POST);    
 }
 
-function AjaxApi(data, apiType)
+function EditCustomer(event, Id)
+{
+    var table = $('#dataTableInventory').DataTable();
+
+    $('.dataTableInventoryRow').removeClass('selected');
+
+    $("#" + event.currentTarget.id).toggleClass('selected');
+
+    var RowData = table.row('#' + Id).data();
+   
+
+    ModalCrDisplay(CRUDType.EDIT,RowData);
+
+}
+
+function AddCustomer()
+{
+    let customer = new Customer("","", "", "", "", "");
+
+    ModalCrDisplay(CRUDType.CREATE,customer);
+}
+
+function ModalCrSubmit()
+{
+    let customer = new Customer($("#Modal_CR_Id").val(),$("#Modal_CR_Name").val(), $("#Modal_CR_Address").val(), $("#Modal_CR_City").val(), $("#Modal_CR_State").val(), $("#Modal_CR_Zip").val());
+    let requestType = $("#inputCRType").val();
+
+    AjaxApi(customer, requestType);
+}
+
+function ModalCRCancel()
+{
+    $('#form_Modal_CR').trigger("reset");
+    $("#Modal_CR").modal('hide');
+}
+
+function ModalCrDisplay(CRType,CustomerObj)
+{
+    var ModalCrSubTitle = "";
+
+    var ModalEdit = "<h4 class='modalCrSubTitleDynamic'><i class='fa fa-user-edit'></i>Edit</h4>";
+    var ModalCreate = "<h4 class='modalCrSubTitleDynamic'><i class='fa fa-user-plus modalCrSubTitleDynamic'></i>Add</h4>";
+    var inputCRTypeVal = "";
+
+    switch (CRType)
+    {
+        case "Edit": ModalCrSubTitle = ModalEdit; inputCRTypeVal = RequestType.PUT;
+            break;
+        case "Create": ModalCrSubTitle = ModalCreate; inputCRTypeVal = RequestType.POST;
+            break;
+    }
+
+
+    $("#selectOptionCurrentState").remove();
+    $(".modalCrSubTitleDynamic").remove();
+
+
+
+    $("#Modal_CR_Id").val(CustomerObj.CustomerID);
+    $("#Modal_CR_Name").val(CustomerObj.Name);
+    $("#Modal_CR_Address").val(CustomerObj.Address);
+    $("#Modal_CR_City").val(CustomerObj.City);
+    $("#Modal_CR_State").append("<option selected id='selectOptionCurrentState' value='" + CustomerObj.State +"'>" + CustomerObj.State + "<p class='font-weight-bold'>(Current)</p>" + "</option>");
+    $("#Modal_CR_Zip").val(CustomerObj.Zip);
+
+
+
+
+
+    $("#Modal_CR_SubHeader").append(ModalCrSubTitle);
+    $("#inputCRType").val(inputCRTypeVal);
+
+    $("#Modal_CR").modal("show");
+}
+
+function AjaxApi(customerData, apiType)
 {
     
+   
+
     var sendToAdress = "https://localhost:44309/";
 
     let apiPost = "api/Customers/PostCustomer/customer";
@@ -47,40 +127,41 @@ function AjaxApi(data, apiType)
 
     var requestType = "";
 
-    if (data == null || apiType == null)
+    if (customerData == null || apiType == null)
     {
-        ModalMessenger(data, false, apiType, "null parameters provided");
+        ModalMessenger(customerData, false, apiType, "null parameters provided");
     }
 
     switch (apiType)
     {
-        case "Post": sendToAdress + apiPost; requestType = RequestType.POST;
+        case "Post": sendToAdress += apiPost; requestType = RequestType.POST;
             break;
-        case "Delete": sendToAdress + apiDelete; requestType = RequestType.DELETE;
+        case "Delete": sendToAdress += apiDelete; requestType = RequestType.DELETE;
             break;
-        case "Put": sendToAdress + apiPut; requestType = RequestType.PUT;
+        case "Put": sendToAdress += apiPut; requestType = RequestType.PUT;
             break;
         default: ModalMessenger(apiType, false, apiType, "could not determine Ajax Type");
             break;
     }
+   
 
     $.ajax({
         type: requestType,
         url: sendToAdress,
-        data: data,
+        data: customerData,
         success: function () { },
         statusCode:
         {
-            400: ModalMessenger("Null!", false, apiType, "Bad Data sent"),
+            400: function () { ModalMessenger("Null!", false, apiType, "Bad Data sent") },
 
-            500: ModalMessenger(AddCustomerSubmit.Name, false, apiType, "Success"),
+            500: function () { ModalMessenger("500", false, apiType, "Internal Server Error")},
 
-            200: ModalMessenger(data.Name, true, apiType, "Success"),
+            200: function () { AjaxGet(); ModalMessenger(customerData, true, apiType, "Success"); $("#Modal_CR").modal('hide'); },
 
-            201: ModalMessenger(data.Name, true, apiType, "Success")
+            201: function () { AjaxGet(); ModalMessenger(customerData, true, apiType, "Created"); $("#Modal_CR").modal('hide'); }
         },
         error: function (response, jqXHR, data) {
-            ModalMessenger(data, false, apiType, "Ajax Error");
+            ModalMessenger("error", false, apiType, "Ajax Error");
         }
 
     });
@@ -146,7 +227,7 @@ function IntializeDatatable(data) {
             $("#dataTableInventoryThead_Tr").append('<th> </th>');
         })
 
-
+        var tableType = "Customers";
 
         var table = $('#dataTableInventory').DataTable(
             {
@@ -156,7 +237,7 @@ function IntializeDatatable(data) {
                     {
                         'targets': 0,
                         "render": function (CustomerID, type, row) {
-                            return '<a class="btn btn-primary bg-warning" href="#" id="" role="button"  onclick="AjaxEditRecord(event,' + CustomerID + ')"><i class="fas fa-edit"></i></a>' + CustomerID;
+                            return '<a class="btn btn-primary bg-warning mx-1 my-1" href="#" id="' + tableType + '" role="button"  onclick="EditCustomer(event,' + CustomerID + ')"><i class="fa fa-edit"></i></a>' + CustomerID;
                         },
                     }
                 ],

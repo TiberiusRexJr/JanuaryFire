@@ -59,6 +59,7 @@ namespace JaWeb.Api
             {
                 responseMessage.returnData = null;
                 responseMessage.status = HttpStatusCode.BadRequest;
+                return responseMessage;
             }
             try
             {
