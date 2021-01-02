@@ -218,34 +218,37 @@ namespace JaWeb.Database
         #endregion
 
         #region Delete
-        public bool DeleteEntry(Customers customers)
+        public bool DeleteEntry(List<Customers> customers)
         { 
             bool status = false;
             
             string query = "Delete FROM Customers WHERE CustomerID=@Id";
 
-           
-
-        OleDbCommand command = new OleDbCommand(query,con);
-            command.Parameters.AddWithValue("@Id", customers.CustomerID);
-            try
+           foreach(Customers c in customers)
             {
-                con.Open();
-               int _= command.ExecuteNonQuery();
-
-                if (_ > 0)
+                OleDbCommand command = new OleDbCommand(query, con);
+                command.Parameters.AddWithValue("@Id", c.CustomerID);
+                try
                 {
-                    status = true;
+                    con.Open();
+                    int _ = command.ExecuteNonQuery();
+
+                    if (_ > 0)
+                    {
+                        status = true;
+                    }
+                }
+                catch (OleDbException e)
+                {
+                    er.ErrorheadOleDbException(e);
+                }
+                finally
+                {
+                    con.Close();
                 }
             }
-            catch (OleDbException e)
-            {
-                er.ErrorheadOleDbException(e);
-            }
-            finally
-            {
-                con.Close();
-            }
+
+       
 
 
             return status;

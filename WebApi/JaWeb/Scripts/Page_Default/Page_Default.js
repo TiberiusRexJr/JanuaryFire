@@ -54,6 +54,33 @@ function EditCustomer(event, Id)
 
 }
 
+function DeleteCustomer()
+{
+    table = $("#dataTableInventory").DataTable();
+    var rowsSelected = table.rows('.selected').data();
+
+    if (rowsSelected === undefined || rowsSelected.length == 0)
+    {
+        ModalMessenger("Nothing to Delete!", false, "Delete", "Please Select a row or Rows");
+
+    }
+    else {
+
+        
+        var idsToDelete= new Array(rowsSelected.length);
+
+        $.each(rowsSelected, function (index, record)
+        {
+            idsToDelete[index] = record;
+        });
+
+        var deleteList = new JSONArray(idsToDelete);
+        AjaxApi(deleteList, RequestType.DELETE);    
+
+    }
+
+}
+
 function AddCustomer()
 {
     let customer = new Customer("","", "", "", "", "");
@@ -117,13 +144,12 @@ function ModalCrDisplay(CRType,CustomerObj)
 function AjaxApi(customerData, apiType)
 {
     
-   
 
     var sendToAdress = "https://localhost:44309/";
 
     let apiPost = "api/Customers/PostCustomer/customer";
     let apiPut = "api/Customers/UpdateCustomer/customer";
-    let apiDelete = "api/Customers/DeleteCustomer/customer";
+    let apiDelete = "api/Customers/DeleteCustomer/customers";
 
     var requestType = "";
 

@@ -9,9 +9,9 @@
     <button class="btn btn-primary mx-1 my-1" onclick="AddCustomer()" type="button">
    <i class="fa fa-user-plus fa-1x"></i> Add 
   </button>
-      <button class="btn btn-danger mx-1 my-1" onclick="AddCustomer()" type="button">
-  <i class="fa fa-user-times"></i> Delete
-  </button>
+     
+      <button type="button"  class="btn btn-secondary bg-danger my-1 mx-1" onclick="DeleteCustomer()"><i class="fa fa-user-times"></i> Mass Delete</button>
+
        <table id="dataTableInventory" class="display" style="width:100%">
         <thead>
             <tr id="dataTableInventoryThead_Tr">

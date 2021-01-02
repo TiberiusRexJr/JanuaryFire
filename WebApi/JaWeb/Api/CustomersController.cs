@@ -82,32 +82,32 @@ namespace JaWeb.Api
         }
 
         [HttpDelete]
-        [Route("api/Customers/DeleteCustomer/customer")]
-        public ResponseMessage<Customers> DeleteCustomer([FromBody] Customers customer)
+        [Route("api/Customers/DeleteCustomer/customers")]
+        public ResponseMessage<bool> DeleteCustomer([FromBody] List<Customers> customers)
         {
-            ResponseMessage<Customers> responseMessage = new ResponseMessage<Customers>();
+            ResponseMessage<bool> responseMessage = new ResponseMessage<bool>();
 
-            if (customer == null)
+            if (customers == null)
             {
-                responseMessage.returnData = null;
+                responseMessage.returnData = false;
                 responseMessage.status = HttpStatusCode.BadRequest;
             }
             try
             {
-                if (db.DeleteEntry(customer))
+                if (db.DeleteEntry(customers))
                 {
-                    responseMessage.returnData = customer;
+                    responseMessage.returnData = true;
                     responseMessage.status = HttpStatusCode.OK;
                 }
                 else
                 {
-                    responseMessage.returnData = null;
+                    responseMessage.returnData = false;
                     responseMessage.status = HttpStatusCode.InternalServerError;
                 }
             }
             catch (Exception e)
             {
-                responseMessage.returnData = null;
+                responseMessage.returnData = false;
                 responseMessage.status = HttpStatusCode.InternalServerError;
             }
             return responseMessage;
