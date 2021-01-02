@@ -31,12 +31,14 @@ function AddCustomerSubmit()
 {
     let customer = new Customer($("#inputName").val(), $("#inputAddress").val(), $("#inputCity").val(), $("#selectState").val(), $("#inputZip").val());
 
+    console.log(customer);
+    console.log(RequesType.POST);
     AjaxApi(customer, RequestType.POST);    
 }
 
 function AjaxApi(data, apiType)
 {
-
+    
     var sendToAdress = "https://localhost:44309/";
 
     let apiPost = "api/Customers/PostCustomer/customer";
@@ -63,16 +65,15 @@ function AjaxApi(data, apiType)
     }
 
     $.ajax({
-
         type: requestType,
         url: sendToAdress,
         data: data,
         success: function () { },
         statusCode:
         {
-            400: ModalMessenger(data.Name, false, apiType, "Bad Data sent"),
+            400: ModalMessenger("Null!", false, apiType, "Bad Data sent"),
 
-            500: ModalMessenger(data.Name, false, apiType, "Success"),
+            500: ModalMessenger(AddCustomerSubmit.Name, false, apiType, "Success"),
 
             200: ModalMessenger(data.Name, true, apiType, "Success"),
 
