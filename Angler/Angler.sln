@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30711.63
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Angler", "Angler.csproj", "{E4BBF081-5A68-435F-AE70-A12A192C8A56}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Angler", "Angler\Angler.csproj", "{54F65221-C3FE-460B-8013-0DAF5B15160E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E4BBF081-5A68-435F-AE70-A12A192C8A56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E4BBF081-5A68-435F-AE70-A12A192C8A56}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E4BBF081-5A68-435F-AE70-A12A192C8A56}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E4BBF081-5A68-435F-AE70-A12A192C8A56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54F65221-C3FE-460B-8013-0DAF5B15160E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54F65221-C3FE-460B-8013-0DAF5B15160E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54F65221-C3FE-460B-8013-0DAF5B15160E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54F65221-C3FE-460B-8013-0DAF5B15160E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {D0073313-3D20-4D70-A2F2-BC523D7E1B61}
+		SolutionGuid = {E1A60646-44F1-4079-9A38-4CD32D3A872E}
 	EndGlobalSection
 EndGlobal
