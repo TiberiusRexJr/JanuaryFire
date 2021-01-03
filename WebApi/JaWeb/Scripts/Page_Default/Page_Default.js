@@ -74,8 +74,9 @@ function DeleteCustomer()
             idsToDelete[index] = record;
         });
 
-        var deleteList = new JSONArray(idsToDelete);
-        AjaxApi(deleteList, RequestType.DELETE);    
+
+        //var deleteList = new JSONArray(idsToDelete);
+        AjaxApi(idsToDelete, RequestType.DELETE);    
 
     }
 
@@ -174,7 +175,8 @@ function AjaxApi(customerData, apiType)
     $.ajax({
         type: requestType,
         url: sendToAdress,
-        data: customerData,
+        data: JSON.stringify( customerData),
+        contentType: 'application/json',
         success: function () { },
         statusCode:
         {
