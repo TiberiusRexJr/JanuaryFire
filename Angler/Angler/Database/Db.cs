@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Microsoft.AspNetCore.Http;
 using System.Data.OleDb;
+using System.Data.Odbc;
 using System.Data;
 using System.Data.SqlClient;
 using Angler.Models;
@@ -31,11 +32,12 @@ namespace Angler.Database
         public Db(IWebHostEnvironment env)
         {
             _env = env;
-            dbRoot = _env.ContentRootPath;
+            dbRoot = _env.ContentRootPath+"/App_Data/" + "CustomersDb.mdb";
+
             OleDbConnectionStringBuilder builder = new OleDbConnectionStringBuilder();
 
-            builder.Provider = "Microsoft.ACE.OLEDB.12.0";
-            builder.DataSource = dbRoot + "CustomersDb.mdb";
+            builder.Provider = "Microsoft.Jet.OLEDB.4.0";
+            builder.DataSource = dbRoot;
             builder.PersistSecurityInfo = true;
 
             con = new OleDbConnection(builder.ConnectionString);
@@ -52,15 +54,15 @@ namespace Angler.Database
         {
             bool status = false;
 
-            if(newCustomer==null)
+            if (newCustomer == null)
             {
                 return status;
             }
-            
+
             int rowsAffect = default;
             string query = "INSERT into Customers(Name,Address,City,State,Zip) VALUES(?,?,?,?,?)";
 
-            
+
 
             OleDbCommand command = new OleDbCommand(query, con);
             command.Parameters.AddWithValue("@Name", newCustomer.Name);
@@ -71,7 +73,7 @@ namespace Angler.Database
             try
             {
                 con.Open();
-               rowsAffect= command.ExecuteNonQuery();
+                rowsAffect = command.ExecuteNonQuery();
             }
             catch (OleDbException e)
             {
@@ -82,7 +84,7 @@ namespace Angler.Database
                 con.Close();
             }
 
-            if(rowsAffect>0)
+            if (rowsAffect > 0)
             {
                 status = true;
             }
@@ -95,12 +97,12 @@ namespace Angler.Database
         public List<Customers> GetAllCustomers()
         {
             List<Customers> customers = new List<Customers>();
-          
+
 
             string query = "SELECT * FROM Customers";
 
             OleDbCommand command = new OleDbCommand(query, con);
-             try
+            try
             {
                 con.Open();
                 OleDbDataReader reader = command.ExecuteReader();
@@ -109,7 +111,7 @@ namespace Angler.Database
                     while (reader.Read())
                     {
 
-                        Customers customer= new Customers();
+                        Customers customer = new Customers();
 
                         customer.CustomerID = reader.GetInt32(0);
                         customer.Name = reader.GetString(1);
@@ -147,7 +149,7 @@ namespace Angler.Database
             try
             {
                 con.Open();
-            OleDbDataReader reader = command.ExecuteReader();
+                OleDbDataReader reader = command.ExecuteReader();
 
                 if (reader.HasRows)
                 {
@@ -195,7 +197,7 @@ namespace Angler.Database
             command.Parameters.AddWithValue("@Zip", customers.Zip);
             command.Parameters.AddWithValue("@CustomerID", customers.CustomerID);
             System.Console.WriteLine(command.CommandText);
-            if (customers==null)
+            if (customers == null)
             {
                 return status;
             }
@@ -204,8 +206,8 @@ namespace Angler.Database
             try
             {
                 con.Open();
-                rowCount=command.ExecuteNonQuery();
-                if(rowCount>0)
+                rowCount = command.ExecuteNonQuery();
+                if (rowCount > 0)
                 {
                     status = true;
                 }
@@ -274,15 +276,15 @@ namespace Angler.Database
                 var reader = command.ExecuteReader(CommandBehavior.SchemaOnly);
                 var table = reader.GetSchemaTable();
                 var colName = table.Columns["ColumnName"];
-                foreach(DataRow row in table.Rows)
+                foreach (DataRow row in table.Rows)
                 {
                     columnHeaders.Add(row[colName].ToString());
                 }
             }
-            catch(OleDbException e)
+            catch (OleDbException e)
             {
                 er.ErrorheadOleDbException(e);
-                   
+
             }
 
             return columnHeaders;
@@ -299,43 +301,43 @@ namespace Angler.Database
                 return customers = GetAllCustomers();
             }
 
-            
+
             string query = "SELECT * FROM Customers WHERE Name LIKE '@searchText%'";
             OleDbCommand command = new OleDbCommand(query, con);
 
             command.Parameters.AddWithValue("@searchText", searchText);
 
-                try
+            try
+            {
+                con.Open();
+                OleDbDataReader reader = command.ExecuteReader();
+                while (reader.Read())
                 {
-                    con.Open();
-                    OleDbDataReader reader= command.ExecuteReader();
-                    while(reader.Read())
-                    {
-                        Customers customer = new Customers();
-                        customer.CustomerID = reader.GetInt32(0);
-                        customer.Name = reader.GetString(1);
-                        customer.Address = reader.GetString(2);
-                        customer.City = reader.GetString(3);
-                        customer.State = reader.GetString(4);
-                        customer.Zip = reader.GetString(5);
+                    Customers customer = new Customers();
+                    customer.CustomerID = reader.GetInt32(0);
+                    customer.Name = reader.GetString(1);
+                    customer.Address = reader.GetString(2);
+                    customer.City = reader.GetString(3);
+                    customer.State = reader.GetString(4);
+                    customer.Zip = reader.GetString(5);
 
-                        customers.Add(customer);
-
-                    }
-                    reader.Close();
+                    customers.Add(customer);
 
                 }
-                catch(OleDbException e)
-                {
-                    er.ErrorheadOleDbException(e);
-                     
-                }
-                finally
-                {
-                    con.Close();
-                }
-            
-            
+                reader.Close();
+
+            }
+            catch (OleDbException e)
+            {
+                er.ErrorheadOleDbException(e);
+
+            }
+            finally
+            {
+                con.Close();
+            }
+
+
 
             return customers;
         }
