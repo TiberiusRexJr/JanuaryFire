@@ -1,6 +1,8 @@
 import { Component, OnInit, ElementRef, HostListener, AfterViewInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MdbTableDirective, MdbTablePaginationComponent } from 'node_modules/angular-bootstrap-md';
+import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { Customer } from '../../Models/Customer';
 import { HttpService } from '../http.service';
 
@@ -16,9 +18,12 @@ export class DatatablesComponentComponent implements OnInit,AfterViewInit {
   @ViewChild(MdbTablePaginationComponent, { static: true }) mdbTablePagination: MdbTablePaginationComponent;
   @ViewChild('row', { static: true }) row: ElementRef;
 
-  elements: any = [];
+  elements: any []=[];
+  dummy: any = [];
   headElements = ['CustomerID', 'Name', 'Address', 'City','State','Zip'];
 
+  list: any=[];
+  listLength:Number;
   searchText: string = '';
   previous: string;
 
@@ -35,19 +40,30 @@ export class DatatablesComponentComponent implements OnInit,AfterViewInit {
   }
 
   ngOnInit() {
-   
-    this.httpservice.getData().subscribe(data => { this.elements = data });
+
+
+    const promise =this.httpservice.getData();
+    promise.then((data)=>{this.elements.push(JSON.stringify( data[2]))});
+    console.log(this.elements);
+
+
+
     this.mdbTable.setDataSource(this.elements);
     this.elements = this.mdbTable.getDataSource();
     this.previous = this.mdbTable.getDataSource();
+
   }
 
   ngAfterViewInit() {
+
+
     this.mdbTablePagination.setMaxVisibleItemsNumberTo(this.maxVisibleItems);
 
     this.mdbTablePagination.calculateFirstItemIndex();
     this.mdbTablePagination.calculateLastItemIndex();
     this.cdRef.detectChanges();
+
+
   }
 
   addNewRow() {

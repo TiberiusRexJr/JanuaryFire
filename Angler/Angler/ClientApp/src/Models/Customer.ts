@@ -1,9 +1,9 @@
-export class Customer {
-  CustomerID: number;
-  Name: string;
-  Address: string;
-  City: string;
-  State: string;
-  Zip: string;
+export interface Customer {
+  customerID: number;
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
 
 }

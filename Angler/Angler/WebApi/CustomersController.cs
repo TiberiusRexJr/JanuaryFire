@@ -26,16 +26,17 @@ namespace Angler.WebApi
             _env = env;
             db = new Db(_env);
         }
+
         [HttpGet]
-        [Route("api/Customers/GetCustomers")]
-        public IEnumerable<Customers> Get()
+        [Route("api/Customers/Get")]
+        public ActionResult Get()
         {
             var data = db.GetAllCustomers();
-            return data;
+            return Ok(data);
         }
 
         [HttpGet]
-        [Route("api/Customers/dumn")]
+        [Route("api/Customers/GetCustomers")]
 
         public ResponseMessage<List<Customers>> GetCustomers()
         {
